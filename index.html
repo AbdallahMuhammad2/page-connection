@@ -1,1288 +1,1405 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connection Store - Loja de Roupas Eletrônicas</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connection Store - Loja de Roupas Eletrônicas</title>
 
-  <!-- Fonte Google (Montserrat) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" 
-    rel="stylesheet" 
-  />
+    <!-- Fonte Google (Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap"
+        rel="stylesheet" />
 
-  <style>
-    /* RESET BÁSICO */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <style>
+        /* RESET BÁSICO */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* VARIÁVEIS DE COR */
-    :root {
-      --cor-bg-preto: #0a0a0a; /* Fundo principal mais suave */
-      --cor-bg-secundario: rgba(255, 255, 255, 0.05); /* Fundo secundário mais suave */
-      --cor-branco: #ffffff;
-      --cor-cinza-claro: #cccccc;
-      --cor-cinza-texto: #dddddd;
-      --cor-borda: #333333;
-      --cor-laranja: #ff6700; /* Cor principal (laranja) */
+        /* VARIÁVEIS DE COR */
+        :root {
+            --cor-bg-preto: #0a0a0a;
+            /* Fundo principal mais suave */
+            --cor-bg-secundario: rgba(255, 255, 255, 0.05);
+            /* Fundo secundário mais suave */
+            --cor-branco: #ffffff;
+            --cor-cinza-claro: #cccccc;
+            --cor-cinza-texto: #dddddd;
+            --cor-borda: #333333;
+            --cor-laranja: #ff6700;
+            /* Cor principal (laranja) */
 
-      /* Gradientes e efeitos */
-      --gradiente-botao: linear-gradient(135deg, #ff8a00, #ff6700);
-      --gradiente-banner: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, #ff6700 100%);
-      --blur-glass: blur(10px);
-      --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.3);
-      --shadow-header: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
+            /* Gradientes e efeitos */
+            --gradiente-botao: linear-gradient(135deg, #ff8a00, #ff6700);
+            --gradiente-banner: linear-gradient(135deg, rgba(0, 0, 0, 0.6) 0%, #ff6700 100%);
+            --blur-glass: blur(10px);
+            --shadow-card: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --shadow-header: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
 
-    /* ESTILOS GLOBAIS */
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: var(--cor-bg-preto);
-      color: var(--cor-branco);
-      line-height: 1.6;
-      overflow-x: hidden;
-      scroll-behavior: smooth;
-    }
+        /* ESTILOS GLOBAIS */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--cor-bg-preto);
+            color: var(--cor-branco);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-    /* CONTAINER GERAL */
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        /* CONTAINER GERAL */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    /* CABEÇALHO / NAVBAR */
-    header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(10, 10, 10, 0.9);
-      backdrop-filter: var(--blur-glass);
-      -webkit-backdrop-filter: var(--blur-glass);
-      box-shadow: var(--shadow-header);
-      padding: 0.5rem 0;
-      transition: background 0.3s;
-    }
+        /* CABEÇALHO / NAVBAR */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: var(--blur-glass);
+            -webkit-backdrop-filter: var(--blur-glass);
+            box-shadow: var(--shadow-header);
+            padding: 0.5rem 0;
+            transition: background 0.3s;
+        }
 
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: center; /* Centraliza o conteúdo horizontalmente */
-      position: relative;
-    }
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza horizontalmente */
+            position: relative;
+            height: 60px; /* Define uma altura fixa para o header */
+        }
 
-    .nav-left {
-      position: absolute;
-      left: 1.5rem; /* Alinha o botão "Voltar" à esquerda */
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+        .nav-left {
+            position: absolute;
+            left: 1.5rem; /* Mantém o botão "Voltar" à esquerda */
+            display: flex;
+            align-items: center;
+        }
 
-    /* Botão Voltar */
-    .back-button {
-      background: var(--cor-laranja);
-      color: var(--cor-branco);
-      border: none;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 30px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .back-button svg {
-      margin-right: 0.5rem;
-      width: 20px;
-      height: 20px;
-      fill: var(--cor-branco);
-      transition: transform 0.3s;
-    }
-
-    .back-button:hover {
-      background: #e65c00;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(230, 92, 0, 0.5);
-    }
-
-    .back-button:hover svg {
-      transform: rotate(-20deg);
-    }
-
-    /* Logo */
-    .logo img {
-      height: 60px; /* Aumenta a altura para melhor visibilidade */
-      width: auto;
-      display: block;
-      transition: transform 0.3s;
-    }
-
-    .logo:hover img {
-      transform: scale(1.05);
-    }
-
-    /* Espaço para compensar o header fixo */
-    .header-space {
-      height: 80px; /* Altura equivalente ao header */
-    }
-
-    /* SEÇÃO BANNER PRINCIPAL COM VÍDEO */
-    .banner {
-      position: relative;
-      height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .video-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-    }
-
-    .banner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: var(--gradiente-banner);
-      mix-blend-mode: multiply;
-      z-index: 2;
-    }
-
-    .banner-content {
-      position: relative;
-      z-index: 3;
-      max-width: 800px;
-      padding: 2rem;
-      animation: fadeInUp 1.2s ease forwards;
-    }
-
-    .banner-content h1 {
-      font-size: 3.2rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-      text-shadow: 0 0 12px rgba(255, 103, 0, 0.8);
-      transition: text-shadow 0.3s;
-    }
-
-    .banner-content h1:hover {
-      text-shadow: 0 0 20px rgba(255, 103, 0, 1);
-    }
-
-    .banner-content p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-bottom: 2rem;
-      color: var(--cor-cinza-texto);
-    }
-
-    .btn-explore {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.75rem 2rem;
-      background: var(--gradiente-botao);
-      color: var(--cor-branco);
-      font-weight: 600;
-      text-transform: uppercase;
-      transition: transform 0.3s, box-shadow 0.3s;
-      letter-spacing: 1px;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-
-    .btn-explore:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 15px rgba(255, 103, 0, 0.6);
-    }
-
-    /* Animação de fadeInUp */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .sec-conceito {
-  padding: 4rem 0;
-  text-align: center;
-  background: 
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 80%),
-    url('arte.png') no-repeat left center;
-  background-size: 700px auto;
+        /* ===========================
+           MELHORIA NO BOTÃO DE VOLTAR
+           =========================== */
+           .back-button {
+  background: var(--gradiente-botao);
+  color: var(--cor-branco);
+  border: none;
+  padding: 0.8rem 1.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
-.sec-conceito .conceito-texto {
-  /* Nenhum padding adicional necessário */
+.back-button svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--cor-branco);
+  transition: transform 0.3s ease;
 }
 
-/* Responsividade */
-@media (max-width: 1024px) {
-  .sec-conceito {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 80%);
-  }
+.back-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  /* Uma variação de gradiente para diferenciar o hover */
+  background: linear-gradient(135deg, #ff8a00, #e65c00);
 }
-    .sec-conceito h2 {
-      font-size: 2.5rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 2rem;
-      color: var(--cor-laranja);
-      text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
-      animation: fadeInUp 1s ease forwards;
-    }
-
-    .sec-conceito .conceito-texto {
-      max-width: 800px;
-      margin: 0 auto;
-      font-size: 1.1rem;
-      color: var(--cor-cinza-texto);
-      line-height: 1.8;
-      animation: fadeInUp 1.2s ease forwards;
-      text-align: justify;
-    }
-
-    .sec-conceito p {
-      margin-bottom: 1.5rem;
-    }
-
-    /* SEÇÃO DETALHES (DESIGN, VARIEDADE, COMUNIDADE) */
-    .sec-detalhes {
-      padding: 4rem 0;
-      display: flex;
-      gap: 3rem;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      margin-top: 2rem;
-    }
-
-    .detalhes-container {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .imagem-lateral {
-      flex: 0 1 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--cor-bg-secundario);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 1rem;
-      box-shadow: var(--shadow-card);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .imagem-lateral img {
-      width: 100%;
-      max-width: 250px;
-      height: auto;
-      border: 2px solid var(--cor-laranja);
-      border-radius: 10px;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .imagem-lateral img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(255, 103, 0, 0.6);
-    }
-
-    /* Blocos de texto */
-    .detalhes-textos {
-      flex: 1;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .detalhe-bloco {
-      background-color: var(--cor-bg-secundario);
-      border: 1px solid rgba(255, 103, 0, 0.3);
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      padding: 2rem 1.5rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: var(--shadow-card);
-      text-align: center;
-    }
-
-    .detalhe-bloco:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(255, 103, 0, 0.4);
-    }
-
-    .detalhe-icon {
-      width: 60px;
-      height: 60px;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 103, 0, 0.2);
-      border-radius: 50%;
-      transition: background 0.3s, transform 0.3s;
-      margin: 0 auto 1rem auto;
-    }
-
-    .detalhe-icon img {
-      width: 60%;
-      height: 60%;
-      object-fit: contain;
-      filter: brightness(0) saturate(100%) invert(1);
-      transition: transform 0.3s, filter 0.3s;
-    }
-
-    .detalhe-bloco:hover .detalhe-icon {
-      background: rgba(255, 103, 0, 0.4);
-      transform: scale(1.05);
-    }
-
-    .detalhe-bloco:hover .detalhe-icon img {
-      filter: brightness(0) saturate(100%) invert(0.8);
-      transform: scale(1.1);
-    }
-
-    .detalhe-bloco h3 {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      color: var(--cor-laranja);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .detalhe-bloco p {
-      color: var(--cor-cinza-texto);
-      line-height: 1.6;
-      font-size: 1rem;
-      text-align: justify;
-    }
-
-    /* SEÇÃO "Aqui o after nunca para" */
-    .sec-after {
-      position: relative;
-      padding: 4rem 0;
-      overflow: hidden;
-      color: var(--cor-branco);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: linear-gradient(-45deg, #1a1a1a, #333, #1a1a1a, #333);
-      background-size: 400% 400%;
-      animation: gradientBackground 15s ease infinite;
-      margin-top: 2rem;
-    }
-
-    /* Animação de Gradiente de Fundo */
-    @keyframes gradientBackground {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    /* Vídeo de Background */
-    .sec-after .video-background {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      z-index: 1;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      filter: brightness(0.5); /* Ajusta o brilho para melhorar a legibilidade do texto */
-    }
-
-    /* Overlay */
-    .sec-after .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4); /* Ajuste a opacidade conforme necessário */
-      z-index: 2;
-    }
-
-    .after-container {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      flex-wrap: wrap;
-      padding: 0 1.5rem;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .after-text-block {
-      flex: 1 1 400px;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .after-text-block h2 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      position: relative;
-      display: inline-block;
-      padding-bottom: 0.5rem;
-      color: var(--cor-branco);
-      text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s forwards;
-    }
-
-    .after-text-block h2 .highlight {
-      color: var(--cor-laranja);
-      border-bottom: 4px solid var(--cor-laranja);
-      padding-bottom: 0.2rem;
-      transition: border-bottom 0.3s;
-    }
-
-    .after-text-block h2 .highlight::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 4px;
-      background: var(--cor-laranja);
-      left: 50%;
-      bottom: 0;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-
-    .after-text-block h2 .highlight:hover::after {
-      width: 100%;
-    }
-
-    .after-insta-block {
-      flex: 1 1 300px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-
-    /* Link do Instagram */
-    .instagram-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: var(--cor-laranja); /* Cor sólida */
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-      box-shadow: var(--shadow-card);
-    }
-
-    .instagram-link:hover {
-      background: var(--cor-laranja);
-      transform: none;
-      box-shadow: none;
-    }
-
-    .instagram-icon-wrapper {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .instagram-icon {
-      width: 100%;
-      height: 100%;
-      fill: var(--cor-branco);
-    }
-
-    /* Link da Loja */
-    .store-link {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: #007bff; /* Cor sólida */
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-      box-shadow: var(--shadow-card);
-    }
-
-    .store-link:hover {
-      background: #007bff;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .store-icon-wrapper {
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .store-icon {
-      width: 100%;
-      height: 100%;
-      fill: var(--cor-branco);
-    }
-
-    /* SEÇÃO COLABORAÇÕES */
-    .sec-collabs {
-      background-color: var(--cor-bg-secundario);
-      padding: 4rem 0;
-      border-top: 1px solid var(--cor-borda);
-      border-bottom: 1px solid var(--cor-borda);
-      animation: fadeInUp 1.2s ease forwards;
-      margin-top: 2rem;
-    }
-
-    .sec-collabs h2 {
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--cor-laranja);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
-      font-size: 2.5rem;
-    }
-
-    .collabs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      justify-items: center;
-    }
-
-    .collab-card {
-      background-color: var(--cor-bg-secundario);
-      border: 1px solid rgba(255, 103, 0, 0.3);
-      border-radius: 12px;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-      width: 100%;
-      max-width: 300px;
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .collab-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(255, 103, 0, 0.4);
-    }
-
-    .collab-card img.collab-logo {
-      width: 100%;
-      max-width: 150px;
-      height: auto;
-      margin-bottom: 1rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-      border-radius: 8px;
-    }
-
-    .collab-card img.collab-logo:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(255, 103, 0, 0.6);
-    }
-
-    .collab-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: var(--cor-laranja);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .collab-card p {
-      color: var(--cor-cinza-texto);
-      line-height: 1.6;
-      font-size: 1rem;
-      text-align: justify;
-    }
-
-    /* SEÇÃO FUNDADORES */
-    .sec-fundadores {
-      background-color: var(--cor-bg-preto);
-      padding: 4rem 0;
-      border-top: 1px solid var(--cor-borda);
-      border-bottom: 1px solid var(--cor-borda);
-      animation: fadeInUp 1.2s ease forwards;
-      margin-top: 2rem;
-    }
-
-    .sec-fundadores h2 {
-      text-align: center;
-      margin-bottom: 3rem;
-      color: var(--cor-laranja);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
-      font-size: 2.5rem;
-    }
-
-    .fundadores-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-    }
-
-    .fundador-card {
-      background-color: var(--cor-bg-secundario);
-      border: 1px solid rgba(255, 103, 0, 0.3);
-      width: 280px;
-      text-align: center;
-      padding: 1rem;
-      border-radius: 10px;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.3s, box-shadow 0.3s;
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .fundador-card::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--cor-laranja);
-      box-sizing: border-box;
-      opacity: 0;
-      transition: opacity 0.3s, transform 0.3s;
-      transform: scale(1.05);
-      z-index: -1;
-    }
-
-    .fundador-card:hover::after {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    .fundador-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(255, 103, 0, 0.25);
-    }
-
-    .fundador-card img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      transition: transform 0.3s;
-    }
-
-    .fundador-card img:hover {
-      transform: scale(1.05);
-    }
-
-    .fundador-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      color: var(--cor-laranja);
-      letter-spacing: 1px;
-    }
-
-    .fundador-card p {
-      color: var(--cor-cinza-texto);
-      font-size: 0.9rem;
-      line-height: 1.4;
-      text-align: justify;
-    }
-
-    /* RODAPÉ */
-    footer {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: var(--blur-glass);
-      -webkit-backdrop-filter: var(--blur-glass);
-      padding: 3rem 0;
-      border-top: 1px solid var(--cor-borda);
-      margin-top: 2rem;
-    }
-
-    .footer-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: space-between;
-      color: #aaa;
-    }
-
-    .footer-col {
-      flex: 1 1 200px;
-      min-width: 200px;
-    }
-
-    .footer-col h4 {
-      margin-bottom: 1rem;
-      color: var(--cor-laranja);
-      text-transform: uppercase;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      border-bottom: 1px solid var(--cor-laranja);
-      display: inline-block;
-      padding-bottom: 4px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-col ul li a {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: var(--cor-cinza-claro);
-      font-size: 0.9rem;
-      transition: color 0.3s;
-      text-decoration: none;
-    }
-
-    .footer-col ul li a:hover {
-      color: var(--cor-laranja);
-    }
-
-    .footer-bottom {
-      margin-top: 2rem;
-      text-align: center;
-      color: #666;
-      font-size: 0.85rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--cor-borda);
-    }
-
-    /* Barra de rolagem (webkit) */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #222;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--cor-laranja);
-      border-radius: 4px;
-    }
-
-    /* 
-      ============================
-      MEDIA QUERIES PARA RESPONSIVIDADE
-      ============================
-    */
-
-    /* => Telas até 1024px (Ex: tablets em landscape ou notebooks menores) */
-    @media (max-width: 1024px) {
-
-      /* NAV HEADER */
-      .nav-container {
-        flex-direction: column;
-        gap: 0.5rem;
-        justify-content: center;
-      }
-
-      .nav-left {
-        gap: 0.5rem;
-      }
-
-      /* Ajuste do Header-Space para telas menores */
-      .header-space {
-        height: 90px;
-      }
-
-      /* Seção Detalhes */
-      .sec-detalhes {
-        flex-direction: column;
-        padding: 3rem 1.5rem;
-      }
-      .detalhes-container {
-        flex-direction: column;
-        gap: 2rem;
-      }
-      .imagem-lateral {
-        flex: 0 1 200px; 
-        margin-bottom: 1rem;
-      }
-
-      /* Seção Colaborações */
-      .sec-collabs {
-        padding: 3rem 1rem;
-      }
-      .collabs-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      }
-
-      /* Seção Fundadores */
-      .fundadores-grid {
-        gap: 1.5rem;
-      }
-    }
-
-    /* => Telas até 768px (tablets em portrait ou smartphones grandes) */
-    @media (max-width: 768px) {
-
-      /* Banner */
-      .banner-content h1 {
-        font-size: 2rem;
-      }
-      .banner-content p {
-        font-size: 0.95rem;
-      }
-
-      /* Seção Conceito */
-      .sec-conceito {
-        padding: 3rem 0;
-      }
-      .sec-conceito h2 {
-        font-size: 1.8rem;
-      }
-      .sec-conceito .conceito-texto {
-        font-size: 0.95rem;
-      }
-
-      /* Seção Detalhes */
-      .sec-detalhes {
-        padding: 2rem 1rem;
-      }
-      .detalhes-textos {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .detalhe-bloco {
-        padding: 1.5rem 1rem;
-      }
-      .detalhe-bloco h3 {
-        font-size: 1.2rem;
-      }
-      .detalhe-bloco p {
-        font-size: 0.95rem;
-      }
-      .imagem-lateral img {
-        max-width: 100%;
-      }
-
-      /* Seção "Aqui o after nunca para" */
-      .sec-after {
-        padding: 3rem 1rem;
-        flex-direction: column;
-      }
-      .after-container {
-        flex-direction: column;
-      }
-      .after-text-block h2 {
-        font-size: 2rem;
-      }
-
-      .after-insta-block {
-        flex-direction: column;
-        gap: 1rem;
-      }
-      .instagram-link, .store-link {
-        padding: 0.6rem 1.2rem;
-      }
-      .instagram-icon-wrapper, .store-icon-wrapper {
-        width: 28px;
-        height: 28px;
-      }
-      .instagram-icon, .store-icon {
-        width: 100%;
-        height: 100%;
-      }
-
-      /* Seção Colaborações */
-      .sec-collabs {
-        padding: 2rem 1rem;
-      }
-      .collab-card {
-        max-width: 250px;
-        padding: 1.5rem 1rem;
-      }
-
-      /* Seção Fundadores */
-      .sec-fundadores {
-        padding: 3rem 1rem;
-      }
-      .fundador-card {
-        width: 100%;
-        max-width: 300px;
-      }
-      .fundador-card img {
-        height: auto;
-      }
-
-      /* Rodapé */
-      .footer-container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    /* => Telas até 480px (smartphones pequenos) */
-    @media (max-width: 480px) {
-
-      /* Banner */
-      .banner {
-        height: 60vh;
-      }
-      .banner-content h1 {
-        font-size: 1.8rem;
-      }
-      .banner-content p {
-        font-size: 0.85rem;
-      }
-
-      /* Seção Conceito */
-      .sec-conceito h2 {
-        font-size: 1.6rem;
-      }
-
-      /* Seção Detalhes */
-      .detalhe-bloco h3 {
-        font-size: 1.1rem;
-      }
-
-      /* Seção "Aqui o after nunca para" */
-      .after-text-block h2 {
-        font-size: 1.8rem;
-      }
-
-      /* Seção Colaborações */
-      .collab-card {
-        max-width: 90%;
-      }
-
-      /* Seção Fundadores */
-      .fundador-card {
-        max-width: 90%;
-        margin: 0 auto;
-      }
-    }
-  </style>
+
+.back-button:hover svg {
+  transform: rotate(-20deg);
+}
+
+/* Efeito ripple no clique */
+.back-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+  pointer-events: none;
+}
+
+.back-button:active::after {
+  width: 150%;
+  height: 150%;
+  transition: 0s;
+}
+
+
+        /* Logo */
+        .logo img {
+            height: 60px;
+            /* Aumenta a altura para melhor visibilidade */
+            width: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Espaço para compensar o header fixo */
+        .header-space {
+            height: 80px;
+            /* Altura equivalente ao header */
+        }
+
+        /* SEÇÃO BANNER PRINCIPAL COM VÍDEO */
+        .banner {
+            position: relative;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .banner::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--gradiente-banner);
+            mix-blend-mode: multiply;
+            z-index: 2;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1.2s ease forwards;
+        }
+
+        .banner-content h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 0 12px rgba(255, 103, 0, 0.8);
+            transition: text-shadow 0.3s;
+        }
+
+        .banner-content h1:hover {
+            text-shadow: 0 0 20px rgba(255, 103, 0, 1);
+        }
+
+        .banner-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: var(--cor-cinza-texto);
+        }
+
+        .btn-explore {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 2rem;
+            background: var(--gradiente-botao);
+            color: var(--cor-branco);
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: transform 0.3s, box-shadow 0.3s;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-explore:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 103, 0, 0.6);
+        }
+
+        /* Animação de fadeInUp */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SEÇÃO QUEM SOMOS */
+        .sec-conceito {
+            padding: 4rem 0;
+            text-align: center;
+            background:
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 80%),
+                url('arte.png') no-repeat left center;
+            background-size: 700px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sec-conceito h2 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+            color: var(--cor-laranja);
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .sec-conceito .conceito-texto {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            color: var(--cor-cinza-texto);
+            line-height: 1.8;
+            animation: fadeInUp 1.2s ease forwards;
+            text-align: justify;
+        }
+
+        .sec-conceito p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* SEÇÃO DETALHES (DESIGN, VARIEDADE, COMUNIDADE) */
+        .sec-detalhes {
+            padding: 4rem 0;
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .detalhes-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .imagem-lateral {
+            flex: 0 1 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cor-bg-secundario);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: var(--shadow-card);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .imagem-lateral img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border: 2px solid var(--cor-laranja);
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .imagem-lateral img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 103, 0, 0.6);
+        }
+
+        /* Blocos de texto */
+        .detalhes-textos {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .detalhe-bloco {
+            background-color: var(--cor-bg-secundario);
+            border: 1px solid rgba(255, 103, 0, 0.3);
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 2rem 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+
+        .detalhe-bloco:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 103, 0, 0.4);
+        }
+
+        .detalhe-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 103, 0, 0.2);
+            border-radius: 50%;
+            transition: background 0.3s, transform 0.3s;
+            margin: 0 auto 1rem auto;
+        }
+
+        .detalhe-icon img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(1);
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .detalhe-bloco:hover .detalhe-icon {
+            background: rgba(255, 103, 0, 0.4);
+            transform: scale(1.05);
+        }
+
+        .detalhe-bloco:hover .detalhe-icon img {
+            filter: brightness(0) saturate(100%) invert(0.8);
+            transform: scale(1.1);
+        }
+
+        .detalhe-bloco h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--cor-laranja);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detalhe-bloco p {
+            color: var(--cor-cinza-texto);
+            line-height: 1.6;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        /* SEÇÃO "Aqui o after nunca para" */
+        .sec-after {
+            position: relative;
+            padding: 2rem 0;
+            overflow: hidden;
+            color: var(--cor-branco);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(-45deg, #1a1a1a, #333, #1a1a1a, #333);
+            background-size: 400% 400%;
+            animation: gradientBackground 15s ease infinite;
+            margin-top: 2rem;
+            min-height: 35vh;
+        }
+
+        /* Animação de Gradiente de Fundo */
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Vídeo de Background */
+        .sec-after .video-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        /* Overlay */
+        .sec-after .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+
+        .after-container {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+            padding: 0 1.5rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-direction: row;
+        }
+
+        .after-text-block {
+            flex: 1 1 400px;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .after-text-block h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            color: var(--cor-branco);
+            text-shadow: 0 4px 6px rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .after-text-block h2 .highlight {
+            color: var(--cor-laranja);
+            border-bottom: 4px solid var(--cor-laranja);
+            padding-bottom: 0.2rem;
+            transition: border-bottom 0.3s;
+            position: relative;
+        }
+
+        .after-text-block h2 .highlight::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 4px;
+            background: var(--cor-laranja);
+            left: 50%;
+            bottom: 0;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .after-text-block h2 .highlight:hover::after {
+            width: 100%;
+        }
+
+        .after-insta-block {
+            flex: 1 1 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Link do Instagram */
+        .instagram-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--cor-laranja);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow-card);
+            color: var(--cor-branco);
+        }
+
+        .instagram-link:hover {
+            background: #e65c00;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(230, 92, 0, 0.5);
+        }
+
+        .instagram-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .instagram-icon {
+            width: 100%;
+            height: 100%;
+            fill: var(--cor-branco);
+            transition: fill 0.3s;
+        }
+
+        .instagram-link:hover .instagram-icon {
+            fill: #ffffff;
+        }
+
+        /* Link da Loja */
+        .store-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #007bff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow-card);
+            color: var(--cor-branco);
+        }
+
+        .store-link:hover {
+            background: #0069d9;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 123, 255, 0.5);
+        }
+
+        .store-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .store-icon {
+            width: 100%;
+            height: 100%;
+            fill: var(--cor-branco);
+        }
+
+        /* SEÇÃO COLABORAÇÕES */
+        .sec-collabs {
+            background-color: var(--cor-bg-secundario);
+            padding: 4rem 0;
+            border-top: 1px solid var(--cor-borda);
+            border-bottom: 1px solid var(--cor-borda);
+            animation: fadeInUp 1.2s ease forwards;
+            margin-top: 2rem;
+        }
+
+        .sec-collabs h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--cor-laranja);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
+            font-size: 2.5rem;
+        }
+
+        .collabs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+        }
+
+        .collab-card {
+            background-color: var(--cor-bg-secundario);
+            border: 1px solid rgba(255, 103, 0, 0.3);
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .collab-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 103, 0, 0.4);
+        }
+
+        .collab-card img.collab-logo {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            margin-bottom: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 8px;
+        }
+
+        .collab-card img.collab-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 103, 0, 0.6);
+        }
+
+        .collab-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--cor-laranja);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .collab-card p {
+            color: var(--cor-cinza-texto);
+            line-height: 1.6;
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        /* SEÇÃO FUNDADORES */
+        .sec-fundadores {
+            background-color: var(--cor-bg-preto);
+            padding: 4rem 0;
+            border-top: 1px solid var(--cor-borda);
+            border-bottom: 1px solid var(--cor-borda);
+            animation: fadeInUp 1.2s ease forwards;
+            margin-top: 2rem;
+        }
+
+        .sec-fundadores h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--cor-laranja);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255, 103, 0, 0.7);
+            font-size: 2.5rem;
+        }
+
+        .fundadores-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .fundador-card {
+            background-color: var(--cor-bg-secundario);
+            border: 1px solid rgba(255, 103, 0, 0.3);
+            width: 280px;
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fundador-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--cor-laranja);
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: scale(1.05);
+            z-index: -1;
+        }
+
+        .fundador-card:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .fundador-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 103, 0, 0.25);
+        }
+
+        .fundador-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .fundador-card img:hover {
+            transform: scale(1.05);
+        }
+
+        .fundador-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            color: var(--cor-laranja);
+            letter-spacing: 1px;
+        }
+
+        .fundador-card p {
+            color: var(--cor-cinza-texto);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: justify;
+        }
+
+        /* RODAPÉ */
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: var(--blur-glass);
+            -webkit-backdrop-filter: var(--blur-glass);
+            padding: 3rem 0;
+            border-top: 1px solid var(--cor-borda);
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+            color: #aaa;
+        }
+
+        .footer-col {
+            flex: 1 1 200px;
+            min-width: 200px;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: var(--cor-laranja);
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--cor-laranja);
+            display: inline-block;
+            padding-bottom: 4px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-col ul li a {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--cor-cinza-claro);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--cor-laranja);
+        }
+
+        .footer-bottom {
+            margin-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--cor-borda);
+        }
+
+        /* Barra de rolagem (webkit) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #222;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cor-laranja);
+            border-radius: 4px;
+        }
+
+        /* MEDIA QUERIES PARA RESPONSIVIDADE */
+
+        /* => Telas até 1024px (Ex: tablets em landscape ou notebooks menores) */
+        @media (max-width: 1024px) {
+
+            /* Responsividade para o Botão "Voltar" */
+            .back-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .back-button svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            /* Responsividade para a Seção "sec-after" */
+            .sec-after {
+                padding: 3rem 1rem;
+                min-height: 45vh;
+            }
+
+            .after-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .after-text-block h2 {
+                font-size: 2.4rem;
+            }
+
+            .after-insta-block {
+                gap: 1.5rem;
+            }
+
+            .instagram-link,
+            .store-link {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.95rem;
+            }
+
+            .instagram-icon-wrapper,
+            .store-icon-wrapper {
+                width: 30px;
+                height: 30px;
+            }
+
+            .instagram-icon,
+            .store-icon {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Ajustes adicionais para sec-conceito se necessário */
+            .sec-conceito h2 {
+                font-size: 2.2rem;
+            }
+
+            .sec-conceito .conceito-texto {
+                font-size: 1rem;
+            }
+        }
+
+        /* => Telas até 768px (tablets em portrait ou smartphones grandes) */
+        @media (max-width: 768px) {
+
+            /* Responsividade para o Botão "Voltar" */
+            .nav-left {
+                margin-bottom: 1rem;
+                display: flex;
+                justify-content: center;
+            }
+
+            .back-button {
+                padding: 0.3rem 0.7rem;
+                font-size: 0.85rem;
+            }
+
+            .back-button svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            /* Responsividade para a Seção "sec-after" */
+            .sec-after {
+                padding: 2.5rem 1rem;
+                min-height: 40vh;
+            }
+
+            .after-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .after-text-block h2 {
+                font-size: 2rem;
+            }
+
+            .after-insta-block {
+                gap: 1rem;
+            }
+
+            .instagram-link,
+            .store-link {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+
+            .instagram-icon-wrapper,
+            .store-icon-wrapper {
+                width: 28px;
+                height: 28px;
+            }
+
+            .instagram-icon,
+            .store-icon {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Ajustes para sec-conceito se necessário */
+            .sec-conceito h2 {
+                font-size: 2.2rem;
+            }
+
+            .sec-conceito .conceito-texto {
+                font-size: 1rem;
+            }
+        }
+
+        /* => Telas até 480px (smartphones pequenos) */
+        @media (max-width: 480px) {
+
+            /* Responsividade para o Botão "Voltar" */
+            .back-button {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .back-button svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            /* Responsividade para a Seção "sec-after" */
+            .sec-after {
+                padding: 2rem 0.5rem;
+                min-height: 35vh;
+            }
+
+            .after-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .after-text-block h2 {
+                font-size: 1.8rem;
+            }
+
+            .after-insta-block {
+                gap: 0.8rem;
+            }
+
+            .instagram-link,
+            .store-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .instagram-icon-wrapper,
+            .store-icon-wrapper {
+                width: 26px;
+                height: 26px;
+            }
+
+            .instagram-icon,
+            .store-icon {
+                width: 100%;
+                height: 100%;
+            }
+
+            /* Ajustes para o banner */
+            .banner {
+                height: 60vh;
+            }
+
+            .banner-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .banner-content p {
+                font-size: 0.85rem;
+            }
+
+            /* Seção Conceito */
+            .sec-conceito h2 {
+                font-size: 1.6rem;
+            }
+
+            .sec-conceito .conceito-texto {
+                font-size: 0.95rem;
+            }
+
+            /* Seção Detalhes */
+            .detalhe-bloco h3 {
+                font-size: 1.1rem;
+            }
+
+            /* Seção Fundadores */
+            .fundador-card {
+                max-width: 90%;
+                margin: 0 auto;
+            }
+
+            .fundador-card img {
+                height: auto;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-  <!-- CABEÇALHO / MENU SUPERIOR -->
-  <header>
-    <div class="container nav-container">
-      <div class="nav-left">
-        <!-- Botão Voltar com Ícone SVG -->
-        <button class="back-button" onclick="window.history.back()">
-          <!-- Ícone SVG de seta para a esquerda -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M15 18l-6-6 6-6"/>
-          </svg>
-          Voltar
-        </button>
-      </div>
-      <!-- Logo / Nome da Loja Centralizada -->
-      <a href="index.html" class="logo">
-        <img src="logo-831351517-1729739180-9c5b3c3d7b6f5adab5ea76d99998583f1729739180-480-0.png" 
-             alt="Connection Store Logo">
-      </a>
-    </div>
-  </header>
-
-  <!-- Espaço para compensar header fixo -->
-  <div class="header-space"></div>
-
-  <!-- SEÇÃO BANNER PRINCIPAL COM VÍDEO -->
-  <section class="banner">
-    <video autoplay muted loop playsinline class="video-background">
-      <source src="6912657_Motion Graphics_Motion Graphic_3840x2160.mp4" type="video/mp4" />
-      Seu navegador não suporta a reprodução de vídeo em HTML5.
-    </video>
-
-    <div class="banner-content">
-      <h1>Connection<br>Store</h1>
-      <p>Onde a música encontra a moda. Conecte-se com o seu estilo.</p>
-      <a href="#" class="btn-explore">Explore</a>
-    </div>
-  </section>
-
-  <!-- SEÇÃO QUEM SOMOS -->
-  <section class="sec-conceito">
-    <div class="container">
-      <h2>Quem Somos</h2>
-      <div class="conceito-texto">
-        <p>
-          Somos a <strong>Connection Store</strong>, fundada por duas irmãs, <strong>Yasmim</strong> e 
-          <strong>Haiane</strong>, que se uniram para cultivar um sonho. Iniciamos em 2023, em São José (SC), 
-          movidas pela nossa paixão pela música eletrônica e por sermos referência de estilo para as amigas. 
-          Começamos revendendo produtos, e com o tempo criamos nossa própria marca, sempre prezando por conexão, 
-          autenticidade e conforto.
-        </p>
-        <p>
-          Nossas coleções são feitas para quem curte música eletrônica e busca expressar sua 
-          personalidade. Cada peça surge para fortalecer a conexão consigo e com os outros, 
-          mostrando a essência de um lifestyle livre, inclusivo e repleto de respeito e diversidade.
-        </p>
-        <p>
-          A <strong>Connection Store</strong> acredita na moda como extensão da cultura eletrônica, 
-          promovendo a liberdade de expressão, o encontro de tribos e a energia que transforma 
-          qualquer lugar em uma pista de dança.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO DETALHES (DESIGN, VARIEDADE, COMUNIDADE) -->
-  <section class="sec-detalhes">
-    <div class="container detalhes-container">
-      <!-- Blocos de texto -->
-      <div class="detalhes-textos">
-        <!-- Bloco 1: Design e Excelência -->
-        <div class="detalhe-bloco">
-          <div class="detalhe-icon">
-            <img src="missao.png" alt="Ícone Design">
-          </div>
-          <h3>Design e Excelência</h3>
-          <p>
-            Na <strong>Connection Store</strong>, cada peça é uma expressão única de personalidade.
-            Selecionamos materiais premium e desenvolvemos modelagens exclusivas para garantir estética
-            refinada, conforto superior e autenticidade — valores que nos definem.
-          </p>
+    <!-- CABEÇALHO / MENU SUPERIOR -->
+    <header>
+        <div class="container nav-container">
+            <!-- Botão Voltar no Canto Esquerdo -->
+            <div class="nav-left">
+                <button class="back-button" onclick="window.history.back()" aria-label="Voltar">
+                  <!-- Ícone SVG de seta para a esquerda -->
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                  </svg>
+                  Voltar
+                </button>
+              </div>
+              
+            <!-- Logo / Nome da Loja Centralizada -->
+            <a href="index.html" class="logo">
+                <img src="logo-831351517-1729739180-9c5b3c3d7b6f5adab5ea76d99998583f1729739180-480-0.png"
+                    alt="Connection Store Logo">
+            </a>
         </div>
+    </header>
 
-        <!-- Bloco 2: Estilos Diversificados -->
-        <div class="detalhe-bloco">
-          <div class="detalhe-icon">
-            <img src="valores.png" alt="Ícone Variedade">
-          </div>
-          <h3>Estilos Diversificados</h3>
-          <p>
-            Oferecemos uma ampla gama de estilos, do minimalismo elegante ao visual mais underground e
-            ousado. Reconhecemos a singularidade de cada indivíduo, por isso nossas coleções incluem opções
-            para entusiastas de <em>tech house</em>, <em>house</em>, <em>industrial</em> e outros
-            subgêneros, sempre promovendo inclusão e respeito.
-          </p>
+    <!-- Espaço para compensar header fixo -->
+    <div class="header-space"></div>
+
+    <!-- SEÇÃO BANNER PRINCIPAL COM VÍDEO -->
+    <section class="banner">
+        <video autoplay muted loop playsinline class="video-background">
+            <source src="6912657_Motion Graphics_Motion Graphic_3840x2160.mp4" type="video/mp4" />
+            Seu navegador não suporta a reprodução de vídeo em HTML5.
+        </video>
+
+        <div class="banner-content">
+            <h1>Connection<br>Store</h1>
+            <p>Onde a música encontra a moda. Conecte-se com o seu estilo.</p>
+            <a href="#" class="btn-explore">Explore</a>
         </div>
+    </section>
 
-        <!-- Bloco 3: Comunidade e Cultura -->
-        <div class="detalhe-bloco">
-          <div class="detalhe-icon">
-            <img src="visao.png" alt="Ícone Comunidade">
-          </div>
-          <h3>Comunidade e Cultura</h3>
-          <p>
-            A <strong>Connection Store</strong> fomenta uma comunidade que celebra a diversidade, a música e
-            a dança como formas de expressão. Priorizamos a ética e a transparência, trabalhando para que
-            cada peça facilite sua conexão, expressão e vibração em harmonia com nossa cultura.
-          </p>
+    <!-- SEÇÃO QUEM SOMOS -->
+    <section class="sec-conceito">
+        <div class="container">
+            <h2>Quem Somos</h2>
+            <div class="conceito-texto">
+                <p>
+                    Somos a <strong>Connection Store</strong>, fundada por duas irmãs, <strong>Yasmim</strong> e
+                    <strong>Haiane</strong>, que se uniram para cultivar um sonho. Iniciamos em 2023, em São José (SC),
+                    movidas pela nossa paixão pela música eletrônica e por sermos referência de estilo para as amigas.
+                    Começamos revendendo produtos, e com o tempo criamos nossa própria marca, sempre prezando por
+                    conexão,
+                    autenticidade e conforto.
+                </p>
+                <p>
+                    Nossas coleções são feitas para quem curte música eletrônica e busca expressar sua
+                    personalidade. Cada peça surge para fortalecer a conexão consigo e com os outros,
+                    mostrando a essência de um lifestyle livre, inclusivo e repleto de respeito e diversidade.
+                </p>
+                <p>
+                    A <strong>Connection Store</strong> acredita na moda como extensão da cultura eletrônica,
+                    promovendo a liberdade de expressão, o encontro de tribos e a energia que transforma
+                    qualquer lugar em uma pista de dança.
+                </p>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- BLOCO "Aqui o after nunca para" -->
-  <section class="sec-after">
-    <!-- Vídeo de Background -->
-    <video autoplay muted loop playsinline class="video-background">
-      <source src="0_Pattern_Geometric_3840x2160.mp4" type="video/mp4" />
-      Seu navegador não suporta a reprodução de vídeo em HTML5.
-    </video>
+    <!-- SEÇÃO DETALHES (DESIGN, VARIEDADE, COMUNIDADE) -->
+    <section class="sec-detalhes">
+        <div class="container detalhes-container">
+            <!-- Blocos de texto -->
+            <div class="detalhes-textos">
+                <!-- Bloco 1: Design e Excelência -->
+                <div class="detalhe-bloco">
+                    <div class="detalhe-icon">
+                        <img src="missao.png" alt="Ícone Design">
+                    </div>
+                    <h3>Design e Excelência</h3>
+                    <p>
+                        Na <strong>Connection Store</strong>, cada peça é uma expressão única de personalidade.
+                        Selecionamos materiais premium e desenvolvemos modelagens exclusivas para garantir estética
+                        refinada, conforto superior e autenticidade — valores que nos definem.
+                    </p>
+                </div>
 
-    <!-- Overlay para garantir a legibilidade do texto -->
-    <div class="overlay"></div>
+                <!-- Bloco 2: Estilos Diversificados -->
+                <div class="detalhe-bloco">
+                    <div class="detalhe-icon">
+                        <img src="valores.png" alt="Ícone Variedade">
+                    </div>
+                    <h3>Estilos Diversificados</h3>
+                    <p>
+                        Oferecemos uma ampla gama de estilos, do minimalismo elegante ao visual mais underground e
+                        ousado. Reconhecemos a singularidade de cada indivíduo, por isso nossas coleções incluem opções
+                        para entusiastas de <em>tech house</em>, <em>house</em>, <em>industrial</em> e outros
+                        subgêneros, sempre promovendo inclusão e respeito.
+                    </p>
+                </div>
 
-    <div class="container after-container">
-      <!-- Texto principal -->
-      <div class="after-text-block">
-        <h2>Aqui é onde a <span class="highlight">música</span> encontra a <span class="highlight">moda</span></h2>
-      </div>
-
-      <!-- Bloco do Instagram e Store -->
-      <div class="after-insta-block">
-        <!-- Link do Instagram -->
-        <a href="https://www.instagram.com/connectt_store/" target="_blank" rel="noopener" class="instagram-link">
-          <div class="instagram-icon-wrapper">
-            <!-- SVG do Instagram -->
-            <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M12 2.2c3.2 0 3.584.012 4.85.07 1.17.054 1.97.24 2.42.403a4.92 4.92 0 011.675 1.093 4.92 4.92 0 011.093 1.675c.163.45.349 1.25.403 2.42.058 1.266.07 1.65.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.42a4.92 4.92 0 01-1.093 1.675 4.92 4.92 0 01-1.675 1.093c-.45.163-1.25.349-2.42.403-1.266.058-1.65.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.42-.403a4.92 4.92 0 01-1.675-1.093A4.92 4.92 0 01.474 15.58c-.163-.45-.349-1.25-.403-2.42C.012 11.894 0 11.51 0 8.585c0-2.926.012-3.31.07-4.58.054-1.17.24-1.97.403-2.42A4.92 4.92 0 011.97.098C2.42-.065 3.22-.25 4.39-.304 5.66-.362 6.04-.375 9-.375h6c2.96 0 3.34.013 4.61.07 1.17.054 1.97.24 2.42.403a4.92 4.92 0 011.675 1.093A4.92 4.92 0 0124 2.78c.163.45.349 1.25.403 2.42.058 1.266.07 1.65.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.24 1.97-.403 2.42a4.92 4.92 0 01-1.093 1.675 4.92 4.92 0 01-1.675 1.093c-.45.163-1.25.349-2.42.403-1.266.058-1.65.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.97-.24-2.42-.403a4.92 4.92 0 01-1.675-1.093 4.92 4.92 0 01-1.093-1.675c-.163-.45-.349-1.25-.403-2.42C.012 11.894 0 11.51 0 8.585c0-2.926.012-3.31.07-4.58.054-1.17.24-1.97.403-2.42A4.92 4.92 0 011.97.098C2.42-.065 3.22-.25 4.39-.304 5.66-.362 6.04-.375 9-.375h6c2.96 0 3.34.013 4.61.07z"/>
-              <path d="M12 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a3.999 3.999 0 110-7.998 3.999 3.999 0 010 7.998z"/>
-              <circle cx="18.406" cy="5.594" r="1.44"/>
-            </svg>
-          </div>
-          <span>INSTAGRAM</span>
-        </a>
-
-        <!-- Link da Loja -->
-        <a href="https://connectionnstore.lojavirtualnuvem.com.br/" target="_blank" rel="noopener" class="store-link">
-          <div class="store-icon-wrapper">
-            <!-- SVG da Loja -->
-            <svg class="store-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M20 6h-3V4a2 2 0 00-2-2h-6a2 2 0 00-2 2v2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zm-8 0H8V4h4v2zm8 16H4V8h16v14z"/>
-              <path d="M6 10h12v2H6z"/>
-            </svg>
-          </div>
-          <span>LOJA</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SEÇÃO COLABORAÇÕES -->
-  <section class="sec-collabs">
-    <div class="container">
-      <h2>Nossas Colaborações</h2>
-      <div class="collabs-grid">
-        <!-- Colaboração 1: Coleção para DJ -->
-        <div class="collab-card">
-          <img src="473542258_18487627687000627_927311928943229856_n.jpg" alt="Coleção DJ FatSync" class="collab-logo">
-          <h3>Collab com FatSync</h3>
-          <p>
-            No dia 21 de dezembro de 2024, lançamos nossa primeira coleção de camisetas em parceria com o FatSync. Essa coleção foi criada para permitir que o artista se expressasse plenamente, aproximando ainda mais seus fãs e proporcionando uma conexão única entre música e moda.
-          </p>
+                <!-- Bloco 3: Comunidade e Cultura -->
+                <div class="detalhe-bloco">
+                    <div class="detalhe-icon">
+                        <img src="visao.png" alt="Ícone Comunidade">
+                    </div>
+                    <h3>Comunidade e Cultura</h3>
+                    <p>
+                        A <strong>Connection Store</strong> fomenta uma comunidade que celebra a diversidade, a música e
+                        a dança como formas de expressão. Priorizamos a ética e a transparência, trabalhando para que
+                        cada peça facilite sua conexão, expressão e vibração em harmonia com nossa cultura.
+                    </p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Colaboração 2: Coleção Wave Nest -->
-        <div class="collab-card">
-          <img src="Captura de tela 2025-01-23 170042.png" alt="Coleção Wave Nest" class="collab-logo">
-          <h3>Coleção Wave Nest</h3>
-          <p>
-            Em colaboração com a página de música eletrônica Wave Nest, desenvolvemos camisetas e croppeds inspirados na Tomorrowland. Essas peças, usadas por inúmeras pessoas durante o festival, foram um verdadeiro sucesso de vendas, combinando estilo e funcionalidade para os amantes da música eletrônica.
-          </p>
+    <!-- BLOCO "Aqui o after nunca para" -->
+    <section class="sec-after">
+        <!-- Vídeo de Background -->
+        <video autoplay muted loop playsinline class="video-background">
+            <source src="0_Pattern_Geometric_3840x2160.mp4" type="video/mp4" />
+            Seu navegador não suporta a reprodução de vídeo em HTML5.
+        </video>
+
+        <!-- Overlay para garantir a legibilidade do texto -->
+        <div class="overlay"></div>
+
+        <div class="container after-container">
+            <!-- Texto principal -->
+            <div class="after-text-block">
+                <h2>Aqui é onde a <span class="highlight">música</span> encontra a <span class="highlight">moda</span>
+                </h2>
+            </div>
+
+            <!-- Bloco do Instagram e Store -->
+            <div class="after-insta-block">
+                <!-- Link do Instagram -->
+                <a href="https://www.instagram.com/connectt_store/" target="_blank" rel="noopener"
+                    class="instagram-link">
+                    <div class="instagram-icon-wrapper">
+                        <!-- SVG do Instagram (Font Awesome) -->
+                        <svg class="instagram-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9
+                                0 63.6 51.3 114.9 114.9 114.9
+                                63.6 0 114.9-51.3 114.9-114.9
+                                0-63.6-51.3-114.9-114.9-114.9zm0
+                                190.3c-41.6 0-75.4-33.8-75.4-75.4
+                                0-41.6 33.8-75.4 75.4-75.4
+                                41.6 0 75.4 33.8 75.4 75.4
+                                0 41.6-33.8 75.4-75.4 75.4zm146.4-194.3c0
+                                14.9-12.1 27-27 27-14.9 0-27-12.1
+                                -27-27 0-14.9 12.1-27 27-27
+                                14.9 0 27 12.1 27 27zm76.1
+                                27c-1.7-36.2-9.9-68.4-36.2
+                                -94.7-26.3-26.3-58.5-34.5-94.7
+                                -36.2-37.4-2.1-148.4-2.1-185.8
+                                0-36.2 1.7-68.4 9.9-94.7 36.2
+                                -26.3 26.3-34.5 58.5-36.2
+                                94.7-2.1 37.4-2.1 148.4 0
+                                185.8 1.7 36.2 9.9 68.4
+                                36.2 94.7 26.3 26.3 58.5
+                                34.5 94.7 36.2 37.4 2.1 148.4
+                                2.1 185.8 0 36.2-1.7 68.4
+                                -9.9 94.7-36.2 26.3-26.3
+                                34.5-58.5 36.2-94.7 2.1-37.4
+                                2.1-148.4 0-185.8zm-48.5
+                                224c-7.8 20.1-23 35.3-43.1
+                                43.1-29.8 11.8-100.7 9-134.9
+                                9s-105.2 2.6-134.9-9c-20.1-7.8
+                                -35.3-23-43.1-43.1-11.8-29.8
+                                -9-100.7-9-134.9s-2.6-105.2
+                                9-134.9c7.8-20.1 23-35.3
+                                43.1-43.1 29.8-11.8 100.7-9
+                                134.9-9s105.2-2.6 134.9 9c20.1
+                                7.8 35.3 23 43.1 43.1 11.8
+                                29.8 9 100.7 9 134.9s2.7
+                                105.2-9 134.9z"/>
+                        </svg>
+                    </div>
+                    <span>INSTAGRAM</span>
+                </a>
+
+                <!-- Link da Loja -->
+                <a href="https://connectionnstore.lojavirtualnuvem.com.br/" target="_blank" rel="noopener"
+                    class="store-link">
+                    <div class="store-icon-wrapper">
+                        <!-- SVG da Loja -->
+                        <svg class="store-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path
+                                d="M20 6h-3V4a2 2 0 00-2-2h-6a2 2 0 00-2 2v2H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2zm-8 0H8V4h4v2zm8 16H4V8h16v14z" />
+                            <path d="M6 10h12v2H6z" />
+                        </svg>
+                    </div>
+                    <span>LOJA</span>
+                </a>
+            </div>
         </div>
+    </section>
 
-        <!-- Adicione mais colaborações conforme necessário -->
-      </div>
-    </div>
-  </section>
+    <!-- SEÇÃO COLABORAÇÕES -->
+    <section class="sec-collabs">
+        <div class="container">
+            <h2>Nossas Colaborações</h2>
+            <div class="collabs-grid">
+                <!-- Colaboração 1: Coleção para DJ -->
+                <div class="collab-card">
+                    <img src="473542258_18487627687000627_927311928943229856_n.jpg" alt="Coleção DJ FatSync"
+                        class="collab-logo">
+                    <h3>Collab com FatSync</h3>
+                    <p>
+                        No dia 21 de dezembro de 2024, lançamos nossa primeira coleção de camisetas em parceria com o
+                        FatSync. Essa coleção foi criada para permitir que o artista se expressasse plenamente,
+                        aproximando ainda mais seus fãs e proporcionando uma conexão única entre música e moda.
+                    </p>
+                </div>
 
-  <!-- SEÇÃO FUNDADORES -->
-  <section class="sec-fundadores">
-    <div class="container">
-      <h2>Nossos Fundadores</h2>
-      <div class="fundadores-grid">
-        <!-- Fundadora 1 -->
-        <div class="fundador-card">
-          <img src="IMG_6954.JPG" alt="Fundadora Yasmim">
-          <h3>Yasmim</h3>
-          <p>
-            Com paixão pela música eletrônica e por tendências de moda, Yasmim sempre foi referência de estilo entre os amigos. Sua visão criativa impulsionou a criação de peças que priorizam conforto, inovação e muita autenticidade.
-          </p>
+                <!-- Colaboração 2: Coleção Wave Nest -->
+                <div class="collab-card">
+                    <img src="Captura de tela 2025-01-23 170042.png" alt="Coleção Wave Nest" class="collab-logo">
+                    <h3>Coleção Wave Nest</h3>
+                    <p>
+                        Em colaboração com a página de música eletrônica Wave Nest, desenvolvemos camisetas e croppeds
+                        inspirados na Tomorrowland. Essas peças, usadas por inúmeras pessoas durante o festival, foram
+                        um verdadeiro sucesso de vendas, combinando estilo e funcionalidade para os amantes da música
+                        eletrônica.
+                    </p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Fundadora 2 -->
-        <div class="fundador-card">
-          <img src="473765332_18486636121000627_469237988521242016_n.jpg" alt="Fundadora Haiane">
-          <h3>Haiane</h3>
-          <p>
-            Parceira de pista e de negócios, Haiane trouxe a veia empreendedora para transformar um sonho em realidade. Ela é a força estratégica por trás da marca, garantindo a conexão entre criatividade e sustentabilidade em cada etapa da produção.
-          </p>
+    <!-- SEÇÃO FUNDADORES -->
+    <section class="sec-fundadores">
+        <div class="container">
+            <h2>Nossas Fundadoras</h2>
+            <div class="fundadores-grid">
+                <!-- Fundadora 1 -->
+                <div class="fundador-card">
+                    <img src="IMG_6954.JPG" alt="Fundadora Yasmim">
+                    <h3>Yasmim</h3>
+                    <p>
+                        Com paixão pela música eletrônica e por tendências de moda, Yasmim sempre foi referência de
+                        estilo entre os amigos. Sua visão criativa impulsionou a criação de peças que priorizam
+                        conforto, inovação e muita autenticidade.
+                    </p>
+                </div>
+
+                <!-- Fundadora 2 -->
+                <div class="fundador-card">
+                    <img src="473765332_18486636121000627_469237988521242016_n.jpg" alt="Fundadora Haiane">
+                    <h3>Haiane</h3>
+                    <p>
+                        Parceira de pista e de negócios, Haiane trouxe a veia empreendedora para transformar um sonho em
+                        realidade. Ela é a força estratégica por trás da marca, garantindo a conexão entre criatividade
+                        e sustentabilidade em cada etapa da produção.
+                    </p>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- RODAPÉ -->
-  <footer>
-    <div class="container footer-container">
-      <!-- COLUNA MENU -->
-      <div class="footer-col">
-        <h4>Menu</h4>
-        <ul>
-          <li><a href="#">Sobre</a></li>
-          <li><a href="#">Produtos</a></li>
-          <li><a href="#">Contato</a></li>
-          <li><a href="#">FAQ</a></li>
-        </ul>
-      </div>
-      <!-- COLUNA ATENDIMENTO -->
-      <div class="footer-col">
-        <h4>Atendimento</h4>
-        <ul>
-          <li><a href="mailto:connectionstore@gmail.com">connectionstore@gmail.com</a></li>
-          <li><a href="tel:+5511999999999">Telefone: (48) 99999-9999</a></li>
-        </ul>
-      </div>
-      <!-- COLUNA SUPORTE -->
-      <div class="footer-col">
-        <h4>Suporte</h4>
-        <ul>
-          <li><a href="#">Política de Troca e Devolução</a></li>
-          <li><a href="#">Política de Privacidade</a></li>
-        </ul>
-      </div>
-      <!-- COLUNA PAGAMENTO -->
-      <div class="footer-col">
-        <h4>Pagamento</h4>
-        <ul>
-          <li><a href="#">Pix</a></li>
-          <li><a href="#">Cartão de Crédito</a></li>
-          <li><a href="#">Boleto Bancário</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="container footer-bottom">
-      <p>Todos os direitos reservados &copy; 2025 - Connection Store. Onde a música encontra a moda.</p>
-    </div>
-  </footer>
+    <!-- RODAPÉ -->
+    <footer>
+        <div class="container footer-container">
+            <!-- COLUNA MENU -->
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="#">Sobre</a></li>
+                    <li><a href="#">Produtos</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <!-- COLUNA ATENDIMENTO -->
+            <div class="footer-col">
+                <h4>Atendimento</h4>
+                <ul>
+                    <li><a href="mailto:connectionstore@gmail.com">connection.store100@gmail.com</a></li>
+                    <li><a href="tel:+5554984197097">Telefone:  (54) 98419-7097</a></li>
+                </ul>
+            </div>
+            <!-- COLUNA SUPORTE -->
+            <div class="footer-col">
+                <h4>Suporte</h4>
+                <ul>
+                    <li><a href="#">Política de Troca e Devolução</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                </ul>
+            </div>
+            <!-- COLUNA PAGAMENTO -->
+            <div class="footer-col">
+                <h4>Pagamento</h4>
+                <ul>
+                    <li><a href="#">Pix</a></li>
+                    <li><a href="#">Cartão de Crédito</a></li>
+                    <li><a href="#">Boleto Bancário</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>Todos os direitos reservados &copy; 2025 - Connection Store. Onde a música encontra a moda.</p>
+        </div>
+    </footer>
 
 </body>
+
 </html>
