@@ -75,14 +75,17 @@
         .nav-container {
             display: flex;
             align-items: center;
-            justify-content: center; /* Centraliza horizontalmente */
+            justify-content: center;
+            /* Centraliza horizontalmente */
             position: relative;
-            height: 60px; /* Define uma altura fixa para o header */
+            height: 60px;
+            /* Define uma altura fixa para o header */
         }
 
         .nav-left {
             position: absolute;
-            left: 1.5rem; /* Mantém o botão "Voltar" à esquerda */
+            left: 1.5rem;
+            /* Mantém o botão "Voltar" à esquerda */
             display: flex;
             align-items: center;
         }
@@ -90,64 +93,66 @@
         /* ===========================
            MELHORIA NO BOTÃO DE VOLTAR
            =========================== */
-           .back-button {
-  background: var(--gradiente-botao);
-  color: var(--cor-branco);
-  border: none;
-  padding: 0.8rem 1.6rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
+        .back-button {
+            background: var(--gradiente-botao);
+            color: var(--cor-branco);
+            border: none;
+            padding: 0.8rem 1.6rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-.back-button svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--cor-branco);
-  transition: transform 0.3s ease;
-}
+        .back-button svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--cor-branco);
+            transition: transform 0.3s ease;
+        }
 
-.back-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-  /* Uma variação de gradiente para diferenciar o hover */
-  background: linear-gradient(135deg, #ff8a00, #e65c00);
-}
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ff8a00, #e65c00);
+            /* Gradiente mais vibrante no hover */
+        }
 
-.back-button:hover svg {
-  transform: rotate(-20deg);
-}
+        .back-button:hover svg {
+            transform: rotate(-20deg);
+            /* Gira o ícone ao passar o mouse */
+        }
 
-/* Efeito ripple no clique */
-.back-button::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.4s ease, height 0.4s ease;
-  pointer-events: none;
-}
+        /* Efeito ripple no clique */
+        .back-button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 70%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            pointer-events: none;
+        }
 
-.back-button:active::after {
-  width: 150%;
-  height: 150%;
-  transition: 0s;
-}
+        .back-button:active::after {
+            width: 150%;
+            height: 150%;
+            transition: 0s;
+            /* Faz o efeito de clique ser instantâneo */
+        }
 
 
         /* Logo */
@@ -1091,6 +1096,40 @@
             .fundador-card img {
                 height: auto;
             }
+
+            /* Responsividade para o Botão "Voltar" - Melhorado */
+            .nav-left {
+                position: FIXED;
+                /* Garante o posicionamento correto */
+                top: 20px;
+                /* Ajuste a distância do topo */
+                left: 10px;
+                /* Ajuste a distância da esquerda */
+                z-index: 1001;
+                /* Sobrepõe outros elementos */
+            }
+
+            .back-button {
+                padding: 0.4rem 0.8rem;
+                /* Aumenta um pouco o padding */
+                font-size: 0.9rem;
+                /* Aumenta um pouco a fonte */
+                display: flex;
+                /* Habilita o flexbox */
+                align-items: center;
+                /* Alinha verticalmente o ícone e o texto */
+                justify-content: center;
+                /* Centraliza horizontalmente o ícone e o texto */
+                gap: 5px;
+                /* Espaçamento entre o ícone e o texto */
+                border-radius: 8px;
+                /* Arredonda mais os cantos */
+            }
+
+            .back-button svg {
+                width: 18px;
+                height: 18px;
+            }
         }
     </style>
 </head>
@@ -1103,14 +1142,14 @@
             <!-- Botão Voltar no Canto Esquerdo -->
             <div class="nav-left">
                 <button class="back-button" onclick="window.history.back()" aria-label="Voltar">
-                  <!-- Ícone SVG de seta para a esquerda -->
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-                  </svg>
-                  Voltar
+                    <!-- Ícone SVG de seta para a esquerda -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                    </svg>
+
                 </button>
-              </div>
-              
+            </div>
+
             <!-- Logo / Nome da Loja Centralizada -->
             <a href="index.html" class="logo">
                 <img src="logo-831351517-1729739180-9c5b3c3d7b6f5adab5ea76d99998583f1729739180-480-0.png"
@@ -1271,7 +1310,7 @@
                                 134.9-9s105.2-2.6 134.9 9c20.1
                                 7.8 35.3 23 43.1 43.1 11.8
                                 29.8 9 100.7 9 134.9s2.7
-                                105.2-9 134.9z"/>
+                                105.2-9 134.9z" />
                         </svg>
                     </div>
                     <span>INSTAGRAM</span>
@@ -1374,7 +1413,7 @@
                 <h4>Atendimento</h4>
                 <ul>
                     <li><a href="mailto:connectionstore@gmail.com">connection.store100@gmail.com</a></li>
-                    <li><a href="tel:+5554984197097">Telefone:  (54) 98419-7097</a></li>
+                    <li><a href="tel:+5554984197097">Telefone: (54) 98419-7097</a></li>
                 </ul>
             </div>
             <!-- COLUNA SUPORTE -->
